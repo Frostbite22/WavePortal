@@ -20,8 +20,16 @@ const main = async () => {
   const waveTxn = await waveContract.wave("This is wave #1");
   await waveTxn.wait();
 
+  waveContract.on("Prize", (from, amount) => {
+    console.log("Prize", from, amount);
+  });
+
   const waveTxn2 = await waveContract.wave("This is wave #2");
   await waveTxn2.wait();
+
+  wavePortalContract.off("Prize", (from, amount) => {
+    console.log("off");
+  });
 
   contractBalance = await hre.ethers.provider.getBalance(waveContract.address);
   console.log(
